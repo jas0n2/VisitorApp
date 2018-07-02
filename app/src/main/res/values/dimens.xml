@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginleft_form">40dp</dimen>
+    <dimen name="marginrightform">40dp</dimen>
+    <dimen name="margintop_form">10dp</dimen>
+</resources>

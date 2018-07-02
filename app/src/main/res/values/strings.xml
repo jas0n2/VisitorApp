@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">VisitorApp</string>
+    <string name="fname">Name*</string>
+    <string name="lname">Last Name</string>
+    <string name="Contact">Contact Number *</string>
+    <string name="Email">Email Address</string>
+    <string name="officeaddress">Company Name</string>
+    <string name="Home">From     </string>
+    <string-array name="reason">
+        <item>Select Reason</item>
+        <item value="official">Official</item>
+        <item>Personal</item>
+    </string-array>
+
+    <string-array name="location">
+        <item>Select Location</item>
+
+        <item>Home</item>
+        <item>Company</item>
+    </string-array>
+</resources>

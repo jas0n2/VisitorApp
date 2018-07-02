@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/singinLayout"
+    android:layout_marginTop="20dp"
+    android:layout_height="match_parent"
+    >
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:id="@+id/textLayoutName"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/fname"
+                android:textSize="15sp"
+
+                android:id="@+id/editLayoutName"
+
+                android:textColorHint="#000000"
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutNumber"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/Contact"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:id="@+id/editLayoutcontact"
+                android:textColorHint="#000000"
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutEmail"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/Email"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:id="@+id/editLayoutEmail"
+                android:textColorHint="#000000"
+
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutReason"
+            android:layout_height="wrap_content">
+
+
+           <android.support.v7.widget.AppCompatSpinner
+               android:layout_width="match_parent"
+               android:id="@+id/spinner"
+               android:spinnerMode="dialog"
+               android:layout_height="wrap_content" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.v4.widget.Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayouttoMeet"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/officeaddress"
+                android:textSize="15sp"
+
+                android:inputType="number"
+                android:id="@+id/edittoMeet"
+                android:textColorHint="#000000"
+
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.v4.widget.Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutLocation"
+            android:layout_height="wrap_content">
+
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:id="@+id/spinnerlocation"
+                android:layout_height="wrap_content" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutHaddress"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/Home"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:id="@+id/editLayoutHaddress"
+                android:textColorHint="#000000"
+
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutOfficeAddress"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/officeaddress"
+                android:textSize="15sp"
+
+                android:inputType="number"
+                android:id="@+id/editOfficeAddress"
+                android:textColorHint="#000000"
+
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutTime"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="12:00pm"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:id="@+id/editTime"
+                android:textColorHint="#000000"
+
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_below="@+id/scrollView"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="200dp"
+                android:text="Cancel"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/round_button"
+                android:textColor="#fff"
+                android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="200dp"
+                android:text="Cancel"
+                android:textColor="#fff"
+                android:background="@drawable/round_corner_submit"
+
+                android:layout_marginLeft="200dp"
+
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+
+
+
+</RelativeLayout>
