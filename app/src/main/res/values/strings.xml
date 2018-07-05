@@ -6,6 +6,7 @@
     <string name="Email">Email Address</string>
     <string name="officeaddress">Company Name</string>
     <string name="Home">From     </string>
+    <string name="choose_staff">Choose Staff</string>
     <string-array name="reason">
         <item>Select Reason</item>
         <item value="official">Official</item>

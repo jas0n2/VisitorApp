@@ -16,6 +16,15 @@ public class GlobalVariables {
     public static final  String COL9 = "locationaddress";
     public  static  final String COL10 = "sync_status";
 
+    public  static final String TABLENAME1= "STAFFTABLE";
+
+    public static final String COL11 ="id";
+    public  static final  String COL22 = "name";
+    public static  final  String COL33 = "email";
+    public static  final  String COL44 = "phonenumber";
+
+    public  static  final String COL55 = "department";
+    public  static  final String COL60 = "staff_id";
 
 
 

@@ -79,6 +79,24 @@
                 android:layout_height="wrap_content" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textLayoutStaff"
+            android:layout_height="wrap_content">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:hint="@string/choose_staff"
+            android:completionThreshold="1"
+            android:id="@+id/staffid"
+            android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/margintop_form"
