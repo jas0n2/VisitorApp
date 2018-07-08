@@ -235,7 +235,8 @@
             android:layout_height="wrap_content">
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="200dp"
-                android:text="Cancel"
+                android:text="Save"
+                android:id="@+id/savedata"
                 android:layout_marginLeft="40dp"
                 android:background="@drawable/round_button"
                 android:textColor="#fff"

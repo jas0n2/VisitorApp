@@ -18,10 +18,10 @@ import java.util.List;
 
 public class StaffListAdapter extends ArrayAdapter<Staff> {
 
-    private ArrayList<Staff> staffListfull;
-    public StaffListAdapter(@NonNull Context context, @NonNull ArrayList<Staff> staffList) {
+    private List<Staff> staffListfull;
+    public StaffListAdapter(@NonNull Context context, @NonNull List<Staff> staffList) {
         super(context,0, staffList);
-        staffListfull = staffList;
+        staffListfull = new ArrayList<>(staffList);
 
     }
 

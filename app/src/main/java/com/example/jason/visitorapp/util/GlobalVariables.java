@@ -15,6 +15,8 @@ public class GlobalVariables {
     public static final  String COL8 = "locationtype";
     public static final  String COL9 = "locationaddress";
     public  static  final String COL10 = "sync_status";
+    public  static  final String COL12 = "staff_id";
+
 
     public  static final String TABLENAME1= "STAFFTABLE";
 

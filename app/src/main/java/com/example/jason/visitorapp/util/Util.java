@@ -1,6 +1,8 @@
 package com.example.jason.visitorapp.util;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
@@ -51,5 +53,11 @@ public class Util  {
             }
         });
 
+    }
+
+    public  static boolean checkConnection(Context context){
+        ConnectivityManager connectivityManager= (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return (networkInfo == null && !networkInfo.isConnected());
     }
 }
