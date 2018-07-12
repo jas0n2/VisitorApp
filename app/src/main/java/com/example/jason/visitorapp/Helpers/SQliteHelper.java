@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.jason.visitorapp.util.GlobalVariables;
 
@@ -19,8 +20,7 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME +" (ID PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL2+" TEXT," +
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL2+" TEXT," +
                 ""+GlobalVariables.COL3+" TEXT,"+GlobalVariables.COL4+" NUMERIC,"+GlobalVariables.COL5+" NUMERIC,"+GlobalVariables.COL6+" TEXT,"+GlobalVariables.COL7+" TEXT,"+GlobalVariables.COL8+ " TEXT,"+GlobalVariables.COL9+" TEXT,"+GlobalVariables.COL10+" INTEGER,"+GlobalVariables.COL12+" INTEGER)");
     }
 
@@ -28,12 +28,12 @@ public class SQliteHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalVariables.TABLENAME);
     }
-    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,int staff_id,int sync_satus){
+    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime){
         ContentValues values = new ContentValues();
         values.put(GlobalVariables.COL2,name);
         values.put(GlobalVariables.COL3,email);
         values.put(GlobalVariables.COL4,Phone);
-        values.put(GlobalVariables.COL5,"12:00");
+        values.put(GlobalVariables.COL5,dateTime);
         values.put(GlobalVariables.COL6,reason);
         values.put(GlobalVariables.COL7,visitee);
         values.put(GlobalVariables.COL8,locationtype);
@@ -42,6 +42,8 @@ public class SQliteHelper extends SQLiteOpenHelper{
         values.put(GlobalVariables.COL12,staff_id);
         SQLiteDatabase database = this.getWritableDatabase();
         long insert =  database.insert(GlobalVariables.TABLENAME,null,values);
+
+        Log.i("inserted",String.valueOf(insert));
         if(insert != -1)
             return true;
         else

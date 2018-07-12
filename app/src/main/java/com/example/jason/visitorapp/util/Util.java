@@ -30,9 +30,13 @@ public class Util  {
     public  void showLocationText(AppCompatSpinner spinner, final TextInputLayout home, final TextInputLayout office){
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+              // Toast.makeText(context,adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_LONG).show();
                 if(adapterView.getItemAtPosition(i).toString().equals("Home")){
+                    Log.i("home",adapterView.getItemAtPosition(i).toString());
+
                     home.setVisibility(View.VISIBLE);
 
                     office.setVisibility(View.GONE);
@@ -57,7 +61,7 @@ public class Util  {
 
     public  static boolean checkConnection(Context context){
         ConnectivityManager connectivityManager= (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                return (networkInfo == null && !networkInfo.isConnected());
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && !networkInfo.isConnected());
     }
 }

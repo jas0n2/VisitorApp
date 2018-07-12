@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class GlobalVariables {
     public static   final String DATABASENAME="VISTORSLOG";
-    public static final String TABLENAME ="VISITORSTABLE";
+    public static final String TABLENAME = "VISITORSTABLE";
     public static final String COL1 ="id";
     public  static final  String COL2 = "name";
     public static  final  String COL3 = "email";
@@ -19,6 +19,8 @@ public class GlobalVariables {
 
 
     public  static final String TABLENAME1= "STAFFTABLE";
+    public  static final String TABLENAME4= "STAFF";
+
 
     public static final String COL11 ="id";
     public  static final  String COL22 = "name";

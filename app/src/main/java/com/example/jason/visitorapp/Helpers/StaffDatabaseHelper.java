@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.jason.visitorapp.util.GlobalVariables;
 
@@ -14,11 +15,14 @@ import static java.sql.Types.INTEGER;
 public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     public StaffDatabaseHelper(Context context) {
+
         super(context, GlobalVariables.DATABASENAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.i("inset deb","created");
+
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME1 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL22+" TEXT,"+GlobalVariables.COL33+" TEXT,"+GlobalVariables.COL44+","+GlobalVariables.COL55+" TEXT ,"+GlobalVariables.COL60+" TEXT)");
     }
 
@@ -35,7 +39,8 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(GlobalVariables.COL60,staff_id);
 
         SQLiteDatabase sqLiteDatabase  = this.getWritableDatabase();
-        sqLiteDatabase.insert(GlobalVariables.TABLENAME1,null,contentValues);
+        long h = sqLiteDatabase.insert(GlobalVariables.TABLENAME1,null,contentValues);
+      //  Log.i("h",String.valueOf(h));
         }
 
         public Cursor getData(){
