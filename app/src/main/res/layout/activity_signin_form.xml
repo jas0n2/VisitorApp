@@ -198,9 +198,9 @@
                 android:id="@+id/textLayoutTime"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:hint="12:00pm"
+                    android:text=" 12/7/2018 12:00pm"
                     android:textSize="15sp"
                     android:inputType="number"
 

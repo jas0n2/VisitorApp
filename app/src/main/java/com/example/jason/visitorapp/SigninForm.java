@@ -4,11 +4,13 @@ import android.database.Cursor;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,7 +36,8 @@ public class SigninForm extends AppCompatActivity {
     RelativeLayout singinLayout;
     AppCompatSpinner reason,locationspinner;
 
-    TextInputEditText name,email,phone,locationAdressh,locationAdresso,editTime;
+    TextInputEditText name,email,phone,locationAdressh,locationAdresso;
+    AppCompatTextView editTime;
     TextInputLayout officeLocation,houseLocation,nameLayout,
             emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,locationAddLayero,dateTime;
     AutoCompleteTextView staffName;
@@ -146,7 +149,7 @@ public class SigninForm extends AppCompatActivity {
             AppCompatSpinner locationtype,
             TextInputEditText locationaddressh,
             TextInputEditText locationaddresso,
-            TextInputEditText dateTime,
+            AppCompatTextView dateTime,
             TextInputLayout namel,
             TextInputLayout emaill,
             TextInputLayout Phonel,
