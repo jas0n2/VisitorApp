@@ -293,12 +293,11 @@ populateStaff();
         if(spinner.getSelectedItem().toString().trim().equals("Select Reason") || spinner.getSelectedItem().toString().trim().equals("Select Location") ){
             textInputLayout.setErrorEnabled(true);
             textInputLayout.setError("Please Choose a reason");
-            Log.i("not s0","d");
 
             return  false;
 
         }else{
-            Log.i("not s","3");
+
 
             textInputLayout.setErrorEnabled(false);
 
