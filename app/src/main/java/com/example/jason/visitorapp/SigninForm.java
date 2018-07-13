@@ -29,7 +29,9 @@ import com.example.jason.visitorapp.util.Util;
 import com.example.jason.visitorapp.util.Validators;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SigninForm extends AppCompatActivity {
@@ -51,7 +53,6 @@ public class SigninForm extends AppCompatActivity {
     String  spinnerValidationtext ="";
 
     SQliteHelper sQliteHelper;
-
     ArrayAdapter<CharSequence> adapter,locationSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,22 +81,25 @@ public class SigninForm extends AppCompatActivity {
         dateTime = findViewById(R.id.textLayoutTime);
         editTime = findViewById(R.id.editTime);
         stafflayout = findViewById(R.id.textLayoutStaff);
+        String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+  editTime.setText(date);
+
 
         //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer);
 
         //getSupportActionBar().hide();
-//populateStaff();
-//        StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
-//        Cursor cursor = helper.getData();
-//        staffArrayList = new ArrayList<>();
-//        while (cursor.moveToNext()){
-//            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
-//            staffArrayList.add(staff);
-//        }
+populateStaff();
+       StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
+       Cursor cursor = helper.getData();
+       staffArrayList = new ArrayList<>();
+       while (cursor.moveToNext()){
+            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
+           staffArrayList.add(staff);
+        }
 
         staffName = findViewById(R.id.staffid);
-//        StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
-//        staffName.setAdapter(sadapter);
+        StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
+       staffName.setAdapter(sadapter);
         locationSpinner = ArrayAdapter.createFromResource(getApplicationContext(),R.array.location,android.R.layout.simple_spinner_item);
         locationSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationspinner.setAdapter(locationSpinner);
