@@ -16,6 +16,10 @@ public class GlobalVariables {
     public static final  String COL9 = "locationaddress";
     public  static  final String COL10 = "sync_status";
     public  static  final String COL12 = "staff_id";
+    public  static  final String COL13 = "time_in";
+    public  static  final String COL14 = "time_out";
+
+
 
 
     public  static final String TABLENAME1= "STAFFTABLE";
