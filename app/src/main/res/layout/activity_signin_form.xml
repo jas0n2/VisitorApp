@@ -9,7 +9,9 @@
     android:layout_marginTop="20dp"
     android:layout_height="match_parent"
     >
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -72,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:hint="@string/Email"
                 android:textSize="15sp"
-                android:inputType="number"
+                android:inputType="textEmailAddress"
                 android:id="@+id/editLayoutEmail"
                 android:textColorHint="#000000"
 
@@ -118,27 +120,7 @@
         <android.support.v4.widget.Space
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/margintop_form"
-            android:layout_marginLeft="@dimen/marginleft_form"
-            android:layout_marginRight="@dimen/marginrightform"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/textLayouttoMeet"
-            android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:hint="@string/officeaddress"
-                android:textSize="15sp"
-
-                android:inputType="number"
-                android:id="@+id/edittoMeet"
-                android:textColorHint="#000000"
-
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputLayout>
         <android.support.v4.widget.Space
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
@@ -159,27 +141,7 @@
 
 
         </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/margintop_form"
-            android:layout_marginLeft="@dimen/marginleft_form"
-            android:layout_marginRight="@dimen/marginrightform"
-            android:visibility="gone"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/textLayoutHaddress"
-            android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:hint="@string/Home"
-                android:textSize="15sp"
-                android:inputType="number"
-                android:id="@+id/editLayoutHaddress"
-                android:textColorHint="#000000"
-
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -188,8 +150,9 @@
             android:layout_marginRight="@dimen/marginrightform"
             android:visibility="gone"
             android:layout_gravity="center_vertical"
-            android:id="@+id/textLayoutOfficeAddress"
+            android:id="@+id/locationofAddress"
             android:layout_height="wrap_content">
+
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
@@ -201,6 +164,28 @@
                 android:textColorHint="#000000"
 
                 android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margintop_form"
+            android:layout_marginLeft="@dimen/marginleft_form"
+            android:layout_marginRight="@dimen/marginrightform"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/locationAddress"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="@string/Home"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:id="@+id/editLayoutHaddress"
+                android:textColorHint="#000000"
+
+                android:layout_height="wrap_content" />
+
+
 
         </android.support.design.widget.TextInputLayout>
 
@@ -256,7 +241,7 @@
 
 
 
-
+</ScrollView>
 
 
 </RelativeLayout>

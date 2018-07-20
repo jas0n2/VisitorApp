@@ -33,6 +33,8 @@ public class Util  {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(adapterView.getItemAtPosition(i).toString().equals("Home")){
+                    Log.i("home",adapterView.getItemAtPosition(i).toString());
+
                     home.setVisibility(View.VISIBLE);
 
                     office.setVisibility(View.GONE);
