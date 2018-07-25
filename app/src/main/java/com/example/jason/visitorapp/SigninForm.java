@@ -88,18 +88,19 @@ public class SigninForm extends AppCompatActivity {
         //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer);
 
         //getSupportActionBar().hide();
-populateStaff();
-       StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
-       Cursor cursor = helper.getData();
-       staffArrayList = new ArrayList<>();
-       while (cursor.moveToNext()){
-            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
-           staffArrayList.add(staff);
-        }
+
+     //StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
+       //populateStaff();
+//       Cursor cursor = helper.getData();
+//       staffArrayList = new ArrayList<>();
+//       while (cursor.moveToNext()){
+//            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
+//           staffArrayList.add(staff);
+//        }
 
         staffName = findViewById(R.id.staffid);
-        StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
-       staffName.setAdapter(sadapter);
+        //StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
+       //staffName.setAdapter(sadapter);
         locationSpinner = ArrayAdapter.createFromResource(getApplicationContext(),R.array.location,android.R.layout.simple_spinner_item);
         locationSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationspinner.setAdapter(locationSpinner);

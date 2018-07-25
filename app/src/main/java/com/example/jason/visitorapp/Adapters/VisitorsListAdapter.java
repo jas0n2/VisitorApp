@@ -61,7 +61,7 @@ AppCompatButton signout;
     }
     public void intializeView(Visitors visitors){
    date.setText(visitors.getDate());
-        name.setText(visitors.getName());
+        name.setText("kk");
         timout.setText(visitors.getTimeOut());
         timin.setText(visitors.getTimeIn());
         visiting.setText(visitors.getVisitee());
