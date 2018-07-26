@@ -40,7 +40,7 @@ public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return visitorsArrayList.size();
     }
 }
 
@@ -51,7 +51,7 @@ AppCompatButton signout;
     public Viewholder(View itemView) {
         super(itemView);
         date = itemView.findViewById(R.id.date);
-        name = itemView.findViewById(R.id.date);
+        name = itemView.findViewById(R.id.name);
         timin = itemView.findViewById(R.id.tii);
         timout = itemView.findViewById(R.id.tio);
         visiting = itemView.findViewById(R.id.visiting);
@@ -60,6 +60,7 @@ AppCompatButton signout;
 
     }
     public void intializeView(Visitors visitors){
+   date.setText(visitors.getDate());
    date.setText(visitors.getDate());
         name.setText(visitors.getName());
         timout.setText(visitors.getTimeOut());

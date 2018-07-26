@@ -82,30 +82,31 @@ public class SigninForm extends AppCompatActivity {
         editTime = findViewById(R.id.editTime);
         stafflayout = findViewById(R.id.textLayoutStaff);
         String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-  editTime.setText(date);
+        editTime.setText(date);
 
 
         //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer);
 
         //getSupportActionBar().hide();
-populateStaff();
-       StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
-       Cursor cursor = helper.getData();
-       staffArrayList = new ArrayList<>();
-       while (cursor.moveToNext()){
-            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
-           staffArrayList.add(staff);
-        }
+
+        //StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
+        //populateStaff();
+//       Cursor cursor = helper.getData();
+//       staffArrayList = new ArrayList<>();
+//       while (cursor.moveToNext()){
+//            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
+//           staffArrayList.add(staff);
+//        }
 
         staffName = findViewById(R.id.staffid);
-        StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
-       staffName.setAdapter(sadapter);
+        //StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
+        //staffName.setAdapter(sadapter);
         locationSpinner = ArrayAdapter.createFromResource(getApplicationContext(),R.array.location,android.R.layout.simple_spinner_item);
         locationSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationspinner.setAdapter(locationSpinner);
         officeLocation = findViewById(R.id.locationofAddress);
         houseLocation = findViewById(R.id.locationAddress);
-      showLocationText(locationspinner,houseLocation,officeLocation);
+        showLocationText(locationspinner,houseLocation,officeLocation);
         adapter = ArrayAdapter.createFromResource(this,R.array.reason,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         reason.setAdapter(adapter);
@@ -119,12 +120,15 @@ populateStaff();
 
                     insertData(name,email,phone,reason,staffName,
                             locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
+                finish();
                 }else {
                     validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
 
                     insertData(name,email,phone,reason,staffName,
-                           locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
-//                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
+                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
+
+                   finish();
+                    //                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
 
                 }
 
@@ -148,7 +152,7 @@ populateStaff();
             TextInputEditText name,
             TextInputEditText email,
             TextInputEditText Phone,
-            AppCompatSpinner reason,
+            final AppCompatSpinner reason,
             AutoCompleteTextView visitee,
             AppCompatSpinner locationtype,
             TextInputEditText locationaddressh,
@@ -170,40 +174,31 @@ populateStaff();
 
 
         if (
-               !validateData(name,email,Phone,reason,visitee,locationtype,locationaddressh,locationaddresso,namel,emaill,Phonel,reasonl,visiteel,locationTypeLayout,locationaddresslh,locationaddresslo)
+                !validateData(name,email,Phone,reason,visitee,locationtype,locationaddressh,locationaddresso,namel,emaill,Phonel,reasonl,visiteel,locationTypeLayout,locationaddresslh,locationaddresslo)
                 ) {
-         String editName = name.getText().toString();
+            String editName = name.getText().toString();
 
             String editEmail = email.getText().toString();
             String editPhone = Phone.getText().toString();
             String editDate = dateTime.getText().toString();
-            String editlocationAddress = locationaddresso.getText().toString();
-            String editlocationAddressh = locationaddressh.getText().toString();
+
             String userlocation ="";
-            locationtype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    locationtypeSpinner = adapterView.getItemAtPosition(i).toString();
 
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-
+            locationtypeSpinner =locationtype.getSelectedItem().toString().trim();
             if(locationtypeSpinner.equals("Home")){
                 userlocation = locationaddressh.getText().toString();
+
 
             }else if(locationtypeSpinner.equals("Company")){
                 userlocation = locationaddresso.getText().toString();
 
             }
+            reasonSpinner = reason.getSelectedItem().toString().trim();
+
             reason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    reasonSpinner = adapterView.getItemAtPosition(i).toString();
+                    reasonSpinner = reason.getSelectedItem().toString().trim();
 
                 }
 
@@ -222,7 +217,6 @@ populateStaff();
 
                 }
             });
-
 
             boolean saveData = sQliteHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, editDate);
 

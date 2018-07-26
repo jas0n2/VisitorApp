@@ -8,7 +8,6 @@ public class Visitors {
     private String locationType;
     private String locationAddress;
 private String timeIn,timeOut,date;
-
     public Visitors(String name, String visitee, String reason, String locationType, String locationAddress, String timeIn, String timeOut, String date) {
         this.name = name;
         this.visitee = visitee;

@@ -1,9 +1,14 @@
 package com.example.jason.visitorapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.jason.visitorapp.Adapters.VisitorsListAdapter;
 
@@ -16,7 +21,26 @@ VisitorsListAdapter adapter;
         setContentView(R.layout.activity_vistors);
         visitorsList = findViewById(R.id.visitorsList);
         adapter = new VisitorsListAdapter(getApplicationContext());
-        visitorsList.setLayoutManager(new GridLayoutManager(this,3));
+        visitorsList.setLayoutManager(new LinearLayoutManager(this));
         visitorsList.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id ==R.id.main_menu){{
+            Intent in = new Intent(Vistors.this,SigninForm.class);
+            startActivity(in);
+        }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
