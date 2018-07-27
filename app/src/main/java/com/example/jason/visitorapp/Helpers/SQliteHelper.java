@@ -53,13 +53,13 @@ public class SQliteHelper extends SQLiteOpenHelper{
         else
             return false;
 
-   }
+    }
 
-   public Cursor getVisitors(){
+    public Cursor getVisitors(){
         SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = database.rawQuery("Select * from "+GlobalVariables.TABLENAME,null);
 
         return cursor;
-   }
+    }
 
 }
