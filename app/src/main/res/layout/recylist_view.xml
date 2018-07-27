@@ -60,5 +60,7 @@
         android:layout_width="100dp"
         android:layout_height="70dp"
         android:text="Sign out"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"
         />
 </LinearLayout>

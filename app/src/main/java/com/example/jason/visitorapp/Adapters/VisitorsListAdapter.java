@@ -14,7 +14,7 @@ import com.example.jason.visitorapp.modals.visitorsModel;
 
 import java.util.ArrayList;
 
-public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> {
+public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> implements visitorsModel.OnAddListener {
     private Context context;
     private ArrayList<Visitors> visitorsArrayList;
 
@@ -41,6 +41,12 @@ public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> {
     @Override
     public int getItemCount() {
         return visitorsArrayList.size();
+    }
+
+    @Override
+    public void onadd(ArrayList<Visitors> vistors) {
+        notifyDataSetChanged();
+        visitorsModel.getVisitorsModel(context).getVisitorsList();
     }
 }
 

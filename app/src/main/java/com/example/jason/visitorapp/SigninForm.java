@@ -25,6 +25,8 @@ import com.example.jason.visitorapp.Adapters.StaffListAdapter;
 import com.example.jason.visitorapp.Helpers.SQliteHelper;
 import com.example.jason.visitorapp.Helpers.StaffDatabaseHelper;
 import com.example.jason.visitorapp.modals.Staff;
+import com.example.jason.visitorapp.modals.Visitors;
+import com.example.jason.visitorapp.modals.visitorsModel;
 import com.example.jason.visitorapp.util.Util;
 import com.example.jason.visitorapp.util.Validators;
 
@@ -120,13 +122,16 @@ public class SigninForm extends AppCompatActivity {
 
                     insertData(name,email,phone,reason,staffName,
                             locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
-                finish();
+                    finish();
+
                 }else {
+
                     validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
 
                     insertData(name,email,phone,reason,staffName,
                             locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
-
+                visitorsModel.getVisitorsModel(getApplicationContext()).removeVistors();
+                    updateList();
                    finish();
                     //                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
 
@@ -136,6 +141,16 @@ public class SigninForm extends AppCompatActivity {
             }
         });
         singinLayout.setOnClickListener(null);
+    }
+
+    public  void updateList(){
+
+        SQliteHelper helper = new SQliteHelper(getApplicationContext());
+        Cursor cursor = helper.getVisitors();
+        while (cursor.moveToNext()){
+            Visitors visitors = new Visitors(cursor.getString(1),cursor.getString(6),cursor.getString(5),cursor.getString(7),cursor.getString(8),cursor.getString(11),cursor.getString(12),cursor.getString(4));
+            visitorsModel.getVisitorsModel(getApplicationContext()).addData(visitors);
+        }
     }
     public void populateStaff(){
         StaffDatabaseHelper databaseHelper = new StaffDatabaseHelper(getApplicationContext());
@@ -147,6 +162,7 @@ public class SigninForm extends AppCompatActivity {
 
 
     }
+
 
     public  void insertData(
             TextInputEditText name,
