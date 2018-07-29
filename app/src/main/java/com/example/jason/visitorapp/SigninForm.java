@@ -1,5 +1,6 @@
 package com.example.jason.visitorapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -25,6 +26,8 @@ import com.example.jason.visitorapp.Adapters.StaffListAdapter;
 import com.example.jason.visitorapp.Helpers.SQliteHelper;
 import com.example.jason.visitorapp.Helpers.StaffDatabaseHelper;
 import com.example.jason.visitorapp.modals.Staff;
+import com.example.jason.visitorapp.modals.Visitors;
+import com.example.jason.visitorapp.modals.visitorsModel;
 import com.example.jason.visitorapp.util.Util;
 import com.example.jason.visitorapp.util.Validators;
 
@@ -52,14 +55,15 @@ public class SigninForm extends AppCompatActivity {
     boolean validate =false;
     String  spinnerValidationtext ="";
 
-    SQliteHelper sQliteHelper;
+    SQliteHelper databaseHelper;
     ArrayAdapter<CharSequence> adapter,locationSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_form);
+        //StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
 
-        sQliteHelper = new SQliteHelper(getApplicationContext());
+        databaseHelper = new SQliteHelper(getApplicationContext());
 
         singinLayout = findViewById(R.id.singinLayout);
         reason = findViewById(R.id.spinner);
@@ -68,6 +72,7 @@ public class SigninForm extends AppCompatActivity {
         name = findViewById(R.id.editLayoutName);
         locationAdresso = findViewById(R.id.editLayoutHaddress);
         locationAdressh = findViewById(R.id.editOfficeAddress);
+
 
         phone = findViewById(R.id.editLayoutcontact);
         email = findViewById(R.id.editLayoutEmail);
@@ -89,45 +94,68 @@ public class SigninForm extends AppCompatActivity {
 
         //getSupportActionBar().hide();
 
-        //StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
-        //populateStaff();
-//       Cursor cursor = helper.getData();
-//       staffArrayList = new ArrayList<>();
-//       while (cursor.moveToNext()){
-//            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
-//           staffArrayList.add(staff);
-//        }
+      populateStaff();
+       Cursor cursor = databaseHelper.getData();
+       staffArrayList = new ArrayList<>();
+       while (cursor.moveToNext()){
+            Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
+           staffArrayList.add(staff);
+        }
 
         staffName = findViewById(R.id.staffid);
-        //StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
-        //staffName.setAdapter(sadapter);
+        StaffListAdapter sadapter = new StaffListAdapter(this,staffArrayList);
+        staffName.setAdapter(sadapter);
         locationSpinner = ArrayAdapter.createFromResource(getApplicationContext(),R.array.location,android.R.layout.simple_spinner_item);
         locationSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationspinner.setAdapter(locationSpinner);
         officeLocation = findViewById(R.id.locationofAddress);
         houseLocation = findViewById(R.id.locationAddress);
         showLocationText(locationspinner,houseLocation,officeLocation);
+        staffName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Staff staff = (Staff) adapterView.getItemAtPosition(i);
+                staf_id = staff.getEmployeeId();
+                staff_name = staff.getEmployeeName();
+
+                Toast.makeText(getApplicationContext(), staff_name,Toast.LENGTH_SHORT).show();
+
+            }
+        });
         adapter = ArrayAdapter.createFromResource(this,R.array.reason,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         reason.setAdapter(adapter);
         savedata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),String.valueOf(validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation)),Toast.LENGTH_SHORT).show();
                 boolean h= Util.checkConnection(getApplicationContext());
-                Toast.makeText(getApplicationContext(),String.valueOf(h),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),staff_name,Toast.LENGTH_SHORT).show();
+
                 if(Util.checkConnection(getApplicationContext())){
-                    validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
+                    //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
 
                     insertData(name,email,phone,reason,staffName,
                             locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
-                finish();
+
+                    visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+                   visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+                    Intent in = new Intent(SigninForm.this,Vistors.class);
+                    startActivity(in);
                 }else {
-                    validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
+//                    validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
 
-                    insertData(name,email,phone,reason,staffName,
-                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
+                    if(insertData(name,email,phone,reason,staffName,
+                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1)) {
+                        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+                        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
 
-                   finish();
+                        Intent in = new Intent(SigninForm.this, Vistors.class);
+                        startActivity(in);
+
+                    }else{
+                        return;
+                    }
                     //                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
 
                 }
@@ -138,7 +166,6 @@ public class SigninForm extends AppCompatActivity {
         singinLayout.setOnClickListener(null);
     }
     public void populateStaff(){
-        StaffDatabaseHelper databaseHelper = new StaffDatabaseHelper(getApplicationContext());
         databaseHelper.populateTable("Tefutor ceaser","ceaserjayson@gmail.com","024191","IT","1");
         databaseHelper.populateTable("Joshua Lawson","ceaserjayson@gmail.com","024191","IT","2");
 
@@ -148,7 +175,7 @@ public class SigninForm extends AppCompatActivity {
 
     }
 
-    public  void insertData(
+    public  boolean insertData(
             TextInputEditText name,
             TextInputEditText email,
             TextInputEditText Phone,
@@ -174,58 +201,39 @@ public class SigninForm extends AppCompatActivity {
 
 
         if (
-                !validateData(name,email,Phone,reason,visitee,locationtype,locationaddressh,locationaddresso,namel,emaill,Phonel,reasonl,visiteel,locationTypeLayout,locationaddresslh,locationaddresslo)
+                validateData(name,email,Phone,reason,visitee,locationtype,locationaddressh,locationaddresso,namel,emaill,Phonel,reasonl,visiteel,locationTypeLayout,locationaddresslh,locationaddresslo)
                 ) {
             String editName = name.getText().toString();
 
             String editEmail = email.getText().toString();
             String editPhone = Phone.getText().toString();
             String editDate = dateTime.getText().toString();
-
             String userlocation ="";
-
             locationtypeSpinner =locationtype.getSelectedItem().toString().trim();
             if(locationtypeSpinner.equals("Home")){
-                userlocation = locationaddressh.getText().toString();
+                userlocation = locationaddresslh.getEditText().getText().toString();
 
 
             }else if(locationtypeSpinner.equals("Company")){
-                userlocation = locationaddresso.getText().toString();
+                userlocation =locationaddresslo.getEditText().getText().toString();
 
             }
             reasonSpinner = reason.getSelectedItem().toString().trim();
 
-            reason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    reasonSpinner = reason.getSelectedItem().toString().trim();
 
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
 
-                }
-            });
 
-            visitee.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Staff staff = (Staff) adapterView.getItemAtPosition(i);
-                    staf_id = staff.getEmployeeId();
-                    staff_name = staff.getEmployeeName();
 
-                }
-            });
 
-            boolean saveData = sQliteHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, editDate);
 
-            if (saveData) {
-                Toast.makeText(getApplicationContext(),"inserted",Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(getApplicationContext(),staf_id,Toast.LENGTH_LONG).show();
+
+            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, editDate);
+           return true;
 
         }else {
-
+   return false;
         }
 
     }
@@ -259,21 +267,19 @@ public class SigninForm extends AppCompatActivity {
         Log.i("not empty4",String.valueOf(Validators.notEmptyAddress(locationaddressh, locationaddresslh,locationaddresso,locationaddresslo,locationspinner)));
         Log.i("not empty6",String.valueOf(Validators.isEmail(emaill, email)));
 
-        Log.i("not autocomplet",String.valueOf(Validators.notEmptyAutocomplete(visitee, visiteel)));
 
         if (
-                !Validators.notEmpty(name, namel)
-                        || !Validators.notEmpty(Phone, Phonel) ||
-                        !Validators.notEmpty(email, emaill) ||
-                        !Validators.isEmail(emaill,email)||
-                        !Validators.notEmptyAddress(locationaddressh, locationaddresslh,locationaddresso,locationaddresslo,locationspinner) ||
-
-                        !validateSpinner(reason, reasonl) ||
-                        !Validators.validateSpinner(locationtype, locationtypel) ||
-                        !Validators.notEmptyAutocomplete(visitee, visiteel)
+                Validators.notEmpty(name, namel)
+                        && Validators.notEmpty(Phone, Phonel) &&
+                        Validators.notEmpty(email, emaill) &&
+                        Validators.isEmail(emaill,email)&&
+                        Validators.notEmptyAddress(locationaddressh, locationaddresslh,locationaddresso,locationaddresslo,locationspinner) &&
+                        validateSpinner(reason, reasonl) &&
+                        Validators.validateSpinner(locationtype, locationtypel) &&
+                        Validators.notEmptyAutocomplete(visitee, visiteel)
+                && Validators.validateStaff(staf_id,stafflayout)
 
                 ) {
-
 
             return true;
         }else {
@@ -325,17 +331,18 @@ public class SigninForm extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(adapterView.getItemAtPosition(i).toString().equals("Home")){
-                    Log.i("home",adapterView.getItemAtPosition(i).toString());
-
                     home.setVisibility(View.VISIBLE);
+                    home.requestFocus();
+
 
                     office.setVisibility(View.GONE);
                 }else if (adapterView.getItemAtPosition(i).toString().equals("Company")){
                     home.setVisibility(View.GONE);
                     office.setVisibility(View.VISIBLE);
+                    office.requestFocus();
 
                 }else {
-                    home.setVisibility(View.GONE);
+                 home.setVisibility(View.GONE);
                     office.setVisibility(View.GONE);
 
                 }
@@ -348,5 +355,6 @@ public class SigninForm extends AppCompatActivity {
         });
 
     }
+
 
 }

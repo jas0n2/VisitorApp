@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.jason.visitorapp.Adapters.VisitorsListAdapter;
+import com.example.jason.visitorapp.Helpers.StaffDatabaseHelper;
+import com.example.jason.visitorapp.modals.visitorsModel;
 
 public class Vistors extends AppCompatActivity {
 RecyclerView visitorsList;
@@ -23,6 +25,11 @@ VisitorsListAdapter adapter;
         adapter = new VisitorsListAdapter(getApplicationContext());
         visitorsList.setLayoutManager(new LinearLayoutManager(this));
         visitorsList.setAdapter(adapter);
+        StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
+
+//        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+//        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+
     }
 
     @Override

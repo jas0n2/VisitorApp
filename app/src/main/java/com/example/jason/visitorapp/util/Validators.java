@@ -80,6 +80,18 @@ public class Validators {
             return true;
         }
     }
+
+    public static boolean validateStaff(String staffnumber,TextInputLayout layout){
+        if(staffnumber.equals("")){
+            layout.setErrorEnabled(true);
+            layout.setError("Staff Not found");
+            return false;
+        }else {
+            layout.setErrorEnabled(false);
+            return true;
+        }
+
+    }
     public   static  boolean validateSpinner(AppCompatSpinner spinner, TextInputLayout textInputLayout){
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
