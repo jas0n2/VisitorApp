@@ -19,6 +19,8 @@ import java.util.List;
 public class StaffListAdapter extends ArrayAdapter<Staff> {
 
     private List<Staff> staffListfull;
+
+
     public StaffListAdapter(@NonNull Context context, @NonNull List<Staff> staffList) {
         super(context,0, staffList);
         staffListfull = new ArrayList<>(staffList);
