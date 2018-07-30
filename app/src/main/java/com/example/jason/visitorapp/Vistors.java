@@ -1,7 +1,6 @@
 package com.example.jason.visitorapp;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,11 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.jason.visitorapp.Adapters.VisitorsListAdapter;
-import com.example.jason.visitorapp.Helpers.SQliteHelper;
-import com.example.jason.visitorapp.modals.Visitors;
+import com.example.jason.visitorapp.Helpers.StaffDatabaseHelper;
 import com.example.jason.visitorapp.modals.visitorsModel;
-
-import java.util.ArrayList;
 
 public class Vistors extends AppCompatActivity {
 RecyclerView visitorsList;
@@ -26,12 +22,13 @@ VisitorsListAdapter adapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vistors);
         visitorsList = findViewById(R.id.visitorsList);
-        //visitorsModel.getVisitorsModel(getApplicationContext()).getAllVistiors();
         adapter = new VisitorsListAdapter(getApplicationContext());
         visitorsList.setLayoutManager(new LinearLayoutManager(this));
         visitorsList.setAdapter(adapter);
-        //updatelist();
+        StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
 
+//        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+//        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
 
     }
 
@@ -53,11 +50,4 @@ VisitorsListAdapter adapter;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void  updatelist(){
-        visitorsModel.getVisitorsModel(getApplicationContext()).removeVistors();
-        //visitorsModel.getVisitorsModel(getApplicationContext()).getAllVistiors();
-    }
-
-
 }

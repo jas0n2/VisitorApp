@@ -21,12 +21,17 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.i("inset2 deb","created");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+ GlobalVariables.TABLENAME1 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL22+" TEXT,"+GlobalVariables.COL33+" TEXT,"+GlobalVariables.COL44+","+GlobalVariables.COL55+" TEXT ,"+GlobalVariables.COL60+" TEXT)");
+
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL2+" TEXT," +
                 ""+GlobalVariables.COL3+" TEXT,"+GlobalVariables.COL4+" NUMERIC,"+GlobalVariables.COL5+" NUMERIC,"+GlobalVariables.COL6+" TEXT,"+GlobalVariables.COL7+" TEXT,"+GlobalVariables.COL8+ " TEXT,"+GlobalVariables.COL9+" TEXT,"+GlobalVariables.COL10+" INTEGER,"+GlobalVariables.COL12+" INTEGER,"+GlobalVariables.COL13+" TEXT,"+GlobalVariables.COL14+" TEXT )");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalVariables.TABLENAME1);
+
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalVariables.TABLENAME);
     }
     public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime){
@@ -59,6 +64,25 @@ public class SQliteHelper extends SQLiteOpenHelper{
         SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = database.rawQuery("Select * from "+GlobalVariables.TABLENAME,null);
 
+        return cursor;
+    }
+
+    public void populateTable(String name,String email,String phonenumber,String department,String staff_id){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(GlobalVariables.COL22 ,name);
+        contentValues.put(GlobalVariables.COL33,email);
+        contentValues.put(GlobalVariables.COL44,phonenumber);
+        contentValues.put(GlobalVariables.COL55,department);
+        contentValues.put(GlobalVariables.COL60,staff_id);
+
+        SQLiteDatabase sqLiteDatabase  = this.getWritableDatabase();
+        long h = sqLiteDatabase.insert(GlobalVariables.TABLENAME1,null,contentValues);
+        //  Log.i("h",String.valueOf(h));
+    }
+
+    public Cursor getData(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor =  sqLiteDatabase.rawQuery("Select * from "+GlobalVariables.TABLENAME1,null);
         return cursor;
     }
 

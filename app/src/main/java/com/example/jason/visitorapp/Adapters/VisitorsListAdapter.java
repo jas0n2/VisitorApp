@@ -14,10 +14,13 @@ import com.example.jason.visitorapp.modals.visitorsModel;
 
 import java.util.ArrayList;
 
-public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> implements visitorsModel.OnAddListener {
+import static com.example.jason.visitorapp.Adapters.VisitorsListAdapter.TYPE_LIST;
+
+public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> {
     private Context context;
     private ArrayList<Visitors> visitorsArrayList;
-
+    private static final int TYPE_HEAD= 0;
+    private static final int TYPE_LIST= 1;
     public VisitorsListAdapter(Context context) {
         this.context = context;
         visitorsArrayList = visitorsModel.getVisitorsModel(context).getVisitorsList();
@@ -44,18 +47,25 @@ public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> implem
     }
 
     @Override
-    public void onadd(ArrayList<Visitors> vistors) {
-        notifyDataSetChanged();
-        visitorsModel.getVisitorsModel(context).getVisitorsList();
-    }
+    public int getItemViewType(int position) {
+        if(position ==0)
+            return TYPE_HEAD;
+            return TYPE_LIST;
+
+
+        }
 }
 
 
 class Viewholder extends RecyclerView.ViewHolder{
 AppCompatTextView date,name,timin,timout,visiting,address,from;
-AppCompatButton signout;
-    public Viewholder(View itemView) {
+
+int viewType;
+
+    public Viewholder(View itemView,int viewType) {
         super(itemView);
+
+        if(viewType ==TYPE_LIST)
         date = itemView.findViewById(R.id.date);
         name = itemView.findViewById(R.id.name);
         timin = itemView.findViewById(R.id.tii);
