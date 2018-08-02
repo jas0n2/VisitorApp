@@ -4,4 +4,5 @@
     <dimen name="marginrightform">40dp</dimen>
     <dimen name="margintop_form">10dp</dimen>
     <dimen name="foontsize_recycle_lis">17sp</dimen>
+    <dimen name="marginleft_hea">10dp</dimen>
 </resources>
