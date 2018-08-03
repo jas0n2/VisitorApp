@@ -11,7 +11,7 @@ public class visitorsModel {
     private static visitorsModel visitorsModel;
 
     private Context context;
-    ArrayList<Visitors> visitorsArrayList;
+   public static ArrayList<Visitors> visitorsArrayList;
 
     public visitorsModel(Context context) {
         this.context = context;

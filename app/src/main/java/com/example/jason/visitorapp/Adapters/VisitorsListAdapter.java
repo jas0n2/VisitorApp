@@ -19,7 +19,7 @@ import static com.example.jason.visitorapp.Adapters.VisitorsListAdapter.TYPE_LIS
 
 public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> {
     private Context context;
-    private ArrayList<Visitors> visitorsArrayList;
+      ArrayList<Visitors> visitorsArrayList;
      static final int TYPE_HEAD= 0;
      static final int TYPE_LIST= 1;
     public VisitorsListAdapter(Context context) {
@@ -67,10 +67,16 @@ return  null;
 
 
         }
+    public void setFilter(ArrayList<Visitors>neList){
+     visitorsArrayList = new ArrayList<>();
+     visitorsArrayList.addAll(neList);
+     notifyDataSetChanged();
+
+    }
 }
 
 
-class Viewholder extends RecyclerView.ViewHolder{
+  class Viewholder extends RecyclerView.ViewHolder{
     AppCompatTextView date,name,timin,timout,visiting,address,from;
     AppCompatTextView dateh,nameh,timinh,timouth,visitingh,addressh,fromh;
 
@@ -123,4 +129,6 @@ int view_Type;
         fromh.setText("From");
 
     }
+
+
 }
