@@ -33,6 +33,7 @@ import com.example.jason.visitorapp.util.Validators;
 
 import java.lang.reflect.Array;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -86,8 +87,9 @@ public class SigninForm extends AppCompatActivity {
         dateTime = findViewById(R.id.textLayoutTime);
         editTime = findViewById(R.id.editTime);
         stafflayout = findViewById(R.id.textLayoutStaff);
-        String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-        editTime.setText(date);
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy  HH:mm:ss");
+        editTime.setText(simpleDateFormat.format(calendar.getTime()));
 
 
         //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer);
@@ -228,8 +230,14 @@ public class SigninForm extends AppCompatActivity {
 
 
             Toast.makeText(getApplicationContext(),staf_id,Toast.LENGTH_LONG).show();
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy");
+            String date = simpleDateFormat.format(calendar.getTime());
+            Calendar calendar2 = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
+            String timein = simpleDateFormat2.format(calendar2.getTime());
 
-            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, editDate);
+            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, date,timein,"");
            return true;
 
         }else {

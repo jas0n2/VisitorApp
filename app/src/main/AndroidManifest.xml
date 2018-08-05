@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Vistors"
+            android:name=".Welcome"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,8 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".Signout" />
-        <activity android:name=".SigninForm"></activity>
+        <activity android:name=".SigninForm" />
+        <activity android:name=".Vistors"></activity>
     </application>
 
 </manifest>

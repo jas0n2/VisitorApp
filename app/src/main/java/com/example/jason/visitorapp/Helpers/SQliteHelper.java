@@ -34,7 +34,7 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalVariables.TABLENAME);
     }
-    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime){
+    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime,String timein,String timeout){
         ContentValues values = new ContentValues();
         values.put(GlobalVariables.COL2,name);
         values.put(GlobalVariables.COL3,email);
@@ -46,8 +46,8 @@ public class SQliteHelper extends SQLiteOpenHelper{
         values.put(GlobalVariables.COL9,locationaddress);
         values.put(GlobalVariables.COL10,sync_satus);
         values.put(GlobalVariables.COL12,staff_id);
-        values.put(GlobalVariables.COL13,dateTime);
-        values.put(GlobalVariables.COL14,dateTime);
+        values.put(GlobalVariables.COL13,timein);
+        values.put(GlobalVariables.COL14,timeout);
 
         SQLiteDatabase database = this.getWritableDatabase();
         long insert =  database.insert(GlobalVariables.TABLENAME,null,values);

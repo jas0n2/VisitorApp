@@ -3,6 +3,6 @@
     <dimen name="marginleft_form">40dp</dimen>
     <dimen name="marginrightform">40dp</dimen>
     <dimen name="margintop_form">10dp</dimen>
-    <dimen name="foontsize_recycle_lis">17sp</dimen>
-    <dimen name="marginleft_hea">10dp</dimen>
+    <dimen name="foontsize_recycle_lis">20dp</dimen>
+    <dimen name="marginleft_hea">20dp</dimen>
 </resources>
