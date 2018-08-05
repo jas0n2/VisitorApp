@@ -22,21 +22,34 @@ import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.jason.visitorapp.Adapters.StaffListAdapter;
 import com.example.jason.visitorapp.Helpers.SQliteHelper;
 import com.example.jason.visitorapp.Helpers.StaffDatabaseHelper;
+import com.example.jason.visitorapp.Network.VolleySingleton;
 import com.example.jason.visitorapp.modals.Staff;
 import com.example.jason.visitorapp.modals.Visitors;
 import com.example.jason.visitorapp.modals.visitorsModel;
+import com.example.jason.visitorapp.util.GlobalVariables;
 import com.example.jason.visitorapp.util.Util;
 import com.example.jason.visitorapp.util.Validators;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SigninForm extends AppCompatActivity {
     RelativeLayout singinLayout;
@@ -57,6 +70,7 @@ public class SigninForm extends AppCompatActivity {
     String  spinnerValidationtext ="";
 
     SQliteHelper databaseHelper;
+    Map<String,String> map;
     ArrayAdapter<CharSequence> adapter,locationSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,19 +143,59 @@ public class SigninForm extends AppCompatActivity {
         savedata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                populateHashMap(name,email,phone,reason,staffName,
+                        locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
+
                 //Toast.makeText(getApplicationContext(),String.valueOf(validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation)),Toast.LENGTH_SHORT).show();
-                boolean h= Util.checkConnection(getApplicationContext());
-                Toast.makeText(getApplicationContext(),String.valueOf(h),Toast.LENGTH_SHORT).show();
+//                boolean h= Util.checkConnection(getApplicationContext());
+//                Toast.makeText(getApplicationContext(),String.valueOf(h),Toast.LENGTH_SHORT).show();
 
                 if(Util.checkConnection(getApplicationContext())){
                     //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
 
-                    insertData(name,email,phone,reason,staffName,
-                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
 
                     visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
                    visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
                     Intent in = new Intent(SigninForm.this,Vistors.class);
+                    StringRequest request = new StringRequest( Request.Method.POST, GlobalVariables.serverURL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String result = jsonObject.getString("status");
+                                if(result.equals("ok")){
+                                    insertData(name,email,phone,reason,staffName,
+                                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
+
+                                }else {
+                                    insertData(name,email,phone,reason,staffName,
+                                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,0);
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+
+
+
+                    })  {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+
+                            return map;
+                        }
+                    };
+                    VolleySingleton.volleySingleton(SigninForm.this).addToRequest(request);
                     startActivity(in);
                 }else {
 //                    validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
@@ -236,7 +290,21 @@ public class SigninForm extends AppCompatActivity {
             String timein = simpleDateFormat2.format(calendar2.getTime());
 
             boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, date,timein,"");
-           return true;
+
+            map = new HashMap();
+            map.put("name",editName);
+            map.put("email",editEmail);
+            map.put("phone",editPhone);
+            map.put("reason",reasonSpinner);
+            map.put("staffname",staff_name);
+            map.put("loctionType",locationtypeSpinner);
+            map.put("locationAdress",userlocation);
+            map.put("staf_id",staf_id);
+            map.put("date",date);
+            map.put("timein",timein);
+            map.put("timeout","");
+           // map.put("name",name);
+            return true;
 
         }else {
    return false;
@@ -244,6 +312,88 @@ public class SigninForm extends AppCompatActivity {
 
     }
 
+
+
+    public  boolean populateHashMap(
+            TextInputEditText name,
+            TextInputEditText email,
+            TextInputEditText Phone,
+            final AppCompatSpinner reason,
+            AutoCompleteTextView visitee,
+            AppCompatSpinner locationtype,
+            TextInputEditText locationaddressh,
+            TextInputEditText locationaddresso,
+            AppCompatTextView dateTime,
+            TextInputLayout namel,
+            TextInputLayout emaill,
+            TextInputLayout Phonel,
+            TextInputLayout reasonl,
+            TextInputLayout visiteel,
+            TextInputLayout locationtypel,
+            TextInputLayout locationaddresslh,
+            TextInputLayout locationaddresslo,
+
+            TextInputLayout dateTimel,
+            int sync_status
+    ) {
+
+
+
+        if (
+                validateData(name,email,Phone,reason,visitee,locationtype,locationaddressh,locationaddresso,namel,emaill,Phonel,reasonl,visiteel,locationTypeLayout,locationaddresslh,locationaddresslo)
+                ) {
+            String editName = name.getText().toString();
+
+            String editEmail = email.getText().toString();
+            String editPhone = Phone.getText().toString();
+            String editDate = dateTime.getText().toString();
+            String userlocation ="";
+            locationtypeSpinner =locationtype.getSelectedItem().toString().trim();
+            if(locationtypeSpinner.equals("Home")){
+                userlocation = locationaddresslh.getEditText().getText().toString();
+
+
+            }else if(locationtypeSpinner.equals("Company")){
+                userlocation =locationaddresslo.getEditText().getText().toString();
+
+            }
+            reasonSpinner = reason.getSelectedItem().toString().trim();
+
+
+
+
+
+
+
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy");
+            String date = simpleDateFormat.format(calendar.getTime());
+            Calendar calendar2 = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
+            String timein = simpleDateFormat2.format(calendar2.getTime());
+
+
+            map = new HashMap();
+            map.put("name",editName);
+            map.put("email",editEmail);
+            map.put("phone",editPhone);
+            map.put("reason",reasonSpinner);
+            map.put("staffname",staff_name);
+            map.put("loctionType",locationtypeSpinner);
+            map.put("locationAdress",userlocation);
+            map.put("staf_id",staf_id);
+            map.put("date",date);
+            map.put("timein",timein);
+            map.put("timeout","");
+            // map.put("name",name);
+            return true;
+
+        }else {
+            return false;
+        }
+
+    }
     public  boolean validateData(
             TextInputEditText name,
             TextInputEditText email,
@@ -311,23 +461,7 @@ public class SigninForm extends AppCompatActivity {
         }
     }
 
-    public     boolean validateSpinnerLocation(AppCompatSpinner spinner, TextInputLayout textInputLayout){
 
-        if( spinner.getSelectedItem().toString().trim().equals("Select Location") ){
-            textInputLayout.setErrorEnabled(true);
-            textInputLayout.setError("Please Choose a reason");
-            Log.i("not s0","d");
-
-            return  false;
-
-        }else{
-            Log.i("not s","3");
-
-            textInputLayout.setErrorEnabled(false);
-
-            return  true;
-        }
-    }
 
     public  void showLocationText(AppCompatSpinner spinner, final TextInputLayout home, final TextInputLayout office){
 
