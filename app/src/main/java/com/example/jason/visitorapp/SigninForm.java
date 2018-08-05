@@ -120,7 +120,6 @@ public class SigninForm extends AppCompatActivity {
                 staf_id = staff.getEmployeeId();
                 staff_name = staff.getEmployeeName();
 
-                Toast.makeText(getApplicationContext(), staff_name,Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -130,9 +129,9 @@ public class SigninForm extends AppCompatActivity {
         savedata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),String.valueOf(validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation)),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),String.valueOf(validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation)),Toast.LENGTH_SHORT).show();
                 boolean h= Util.checkConnection(getApplicationContext());
-                Toast.makeText(getApplicationContext(),staff_name,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),String.valueOf(h),Toast.LENGTH_SHORT).show();
 
                 if(Util.checkConnection(getApplicationContext())){
                     //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
@@ -229,7 +228,6 @@ public class SigninForm extends AppCompatActivity {
 
 
 
-            Toast.makeText(getApplicationContext(),staf_id,Toast.LENGTH_LONG).show();
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy");
             String date = simpleDateFormat.format(calendar.getTime());
@@ -315,7 +313,6 @@ public class SigninForm extends AppCompatActivity {
 
     public     boolean validateSpinnerLocation(AppCompatSpinner spinner, TextInputLayout textInputLayout){
 
-        Toast.makeText(getApplicationContext(),spinner.getSelectedItem().toString().trim(),Toast.LENGTH_LONG).show();
         if( spinner.getSelectedItem().toString().trim().equals("Select Location") ){
             textInputLayout.setErrorEnabled(true);
             textInputLayout.setError("Please Choose a reason");
