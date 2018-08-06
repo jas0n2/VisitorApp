@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.android.volley.VolleyLog;
 import com.example.jason.visitorapp.Adapters.VisitorsListAdapter;
 import com.example.jason.visitorapp.Helpers.StaffDatabaseHelper;
 import com.example.jason.visitorapp.modals.Visitors;
@@ -39,7 +40,9 @@ VisitorsListAdapter adapter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.main_menu,menu);
+
         MenuItem item = menu.findItem(R.id.main_sarch);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
