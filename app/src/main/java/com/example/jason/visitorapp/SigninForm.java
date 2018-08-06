@@ -155,94 +155,102 @@ public class SigninForm extends AppCompatActivity {
 //                boolean h= Util.checkConnection(getApplicationContext());
 //                Toast.makeText(getApplicationContext(),String.valueOf(h),Toast.LENGTH_SHORT).show();
 
-                if(Util.checkConnection(getApplicationContext())){
-                    //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
+                if(Util.checkConnection(getApplicationContext())) {
 
+                    boolean validate = validateData(name, email, phone, reason, staffName, locationspinner, locationAdressh, locationAdresso, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation);
 
-                    visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
-                   visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
-                    Intent in = new Intent(SigninForm.this,Vistors.class);
-                    StringRequest request = new StringRequest(Request.Method.POST, GlobalVariables.serverURL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
+                    if (validate) {
 
-                            Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                String result = jsonObject.getString("status");
-                                if(result.equals("ok")){
-                                    insertData(name,email,phone,reason,staffName,
-                                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1);
+                        StringRequest request = new StringRequest(Request.Method.POST, GlobalVariables.serverURL, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
 
-                                }else {
-                                    insertData(name,email,phone,reason,staffName,
-                                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,0);
+                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    String result = jsonObject.getString("status");
+                                    if (result.equals("ok")) {
+                                        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+                                        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+                                        insertData(name, email, phone, reason, staffName,
+                                                 locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 1);
+                                        Intent in = new Intent(SigninForm.this, Welcome.class);
+                                        startActivity(in);
 
+                                    } else {
+                                        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+                                        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+                                        insertData(name, email, phone, reason, staffName,
+                                                locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 0);
+
+                                        Intent in = new Intent(SigninForm.this, Welcome.class);
+                                        startActivity(in);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // Log.d("Volley",error.getMessage());
+                                Toast.makeText(getApplicationContext(), String.valueOf(error.getMessage()), Toast.LENGTH_SHORT).show();
+
                             }
 
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                           // Log.d("Volley",error.getMessage());
-                            Toast.makeText(getApplicationContext(),String.valueOf(error.getMessage()),Toast.LENGTH_SHORT).show();
 
-                        }
+                        }) {
 
 
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
 
-                    })  {
+//                           Map<String,String> map = new HashMap<>();
+//                            map.put("name","S");
+//                            map.put("email","S");
+//                            map.put("phone","022");
+//                            map.put("reason","sld");
+//                            map.put("staffname","DS");
+//                            map.put("loctionType","Sd");
+//                            map.put("locationAdress","sd");
+//                            map.put("staf_id","1");
+//                            map.put("date","2018-10-2");
+//                            map.put("timein","12:20");
+//                            map.put("timeout","12:20");
 
+                                //map.put("Content-Type", "application/json");
+                                return map;
+                            }
 
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-
-                           Map<String,String> map = new HashMap<>();
-                            map.put("name","S");
-                            map.put("email","S");
-                            map.put("phone","022");
-                            map.put("reason","sld");
-                            map.put("staffname","DS");
-                            map.put("loctionType","Sd");
-                            map.put("locationAdress","sd");
-                            map.put("staf_id","1");
-                            map.put("date","2018-10-2");
-                            map.put("timein","12:20");
-                            map.put("timeout","12:20");
-
-                            //map.put("Content-Type", "application/json");
-                            return  map;
-                        }
-
-                    };
+                        };
 
 
-                    request.setShouldCache(false);
-                    request.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                    VolleySingleton.volleySingleton(SigninForm.this).addToRequest(request);
-                   // startActivity(in);
-                }else {
+                        request.setShouldCache(false);
+                        request.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                        VolleySingleton.volleySingleton(SigninForm.this).addToRequest(request);
+
+                    } else {
 //                    validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
 
-                    if(insertData(name,email,phone,reason,staffName,
-                            locationspinner,locationAdressh,locationAdresso,editTime,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation ,dateTime,1)) {
-                        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
-                        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+                        if (insertData(name, email, phone, reason, staffName,
+                                locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 1)) {
+                            visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+                            visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
 
-                        Intent in = new Intent(SigninForm.this, Vistors.class);
-                        startActivity(in);
+                            Intent in = new Intent(SigninForm.this, Welcome.class);
+                            startActivity(in);
 
-                    }else{
-                        return;
+                        } else {
+                            return;
+                        }
+                        //                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
+
                     }
-                    //                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
 
+                }else {
+                    return;
                 }
-
-
             }
         });
         singinLayout.setOnClickListener(null);
@@ -310,7 +318,7 @@ public class SigninForm extends AppCompatActivity {
 
 
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-mm");
             String date = simpleDateFormat.format(calendar.getTime());
             Calendar calendar2 = Calendar.getInstance();
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
@@ -394,7 +402,7 @@ public class SigninForm extends AppCompatActivity {
 
 
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date = simpleDateFormat.format(calendar.getTime());
             Calendar calendar2 = Calendar.getInstance();
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");

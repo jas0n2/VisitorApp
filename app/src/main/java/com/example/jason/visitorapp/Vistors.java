@@ -33,8 +33,8 @@ VisitorsListAdapter adapter;
         visitorsList.setAdapter(adapter);
         StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
 
-//        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
-//        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
 
     }
 
