@@ -19,7 +19,8 @@ public class GlobalVariables {
     public  static  final String COL13 = "time_in";
     public  static  final String COL14 = "time_out";
 
-    public  static  final String serverURL ="http://192.168.120.142/visilog/public/api/visitors/create";
+    public  static  final String serverURL ="http://10.0.2.2/visilog/public/api/visitors/create";
+    public  static  final String authURL ="http://10.0.2.2/visilog/public/api/auth/user";
 
 
 
