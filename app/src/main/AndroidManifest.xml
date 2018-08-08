@@ -3,7 +3,7 @@
     package="com.example.jason.visitorapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Welcome"
+            android:name=".LoginActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Signout" />
         <activity android:name=".SigninForm" />
-        <activity android:name=".Vistors"></activity>
+        <activity android:name=".Vistors" />
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".Welcome"></activity>
     </application>
 
 </manifest>
