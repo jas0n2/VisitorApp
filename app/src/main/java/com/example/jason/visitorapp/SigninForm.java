@@ -113,12 +113,12 @@ public class SigninForm extends AppCompatActivity {
 
         //getSupportActionBar().hide();
 
-      populateStaff();
-       Cursor cursor = databaseHelper.getData();
-       staffArrayList = new ArrayList<>();
-       while (cursor.moveToNext()){
+        //populateStaff();
+        Cursor cursor = databaseHelper.getData();
+        staffArrayList = new ArrayList<>();
+        while (cursor.moveToNext()){
             Staff staff = new Staff(cursor.getString(5),cursor.getString(1),cursor.getString(4));
-           staffArrayList.add(staff);
+            staffArrayList.add(staff);
         }
 
         staffName = findViewById(R.id.staffid);
@@ -173,7 +173,7 @@ public class SigninForm extends AppCompatActivity {
                                         visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
                                         visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
                                         insertData(name, email, phone, reason, staffName,
-                                                 locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 1);
+                                                locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 1);
                                         Intent in = new Intent(SigninForm.this, Welcome.class);
                                         startActivity(in);
 
@@ -324,7 +324,7 @@ public class SigninForm extends AppCompatActivity {
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
             String timein = simpleDateFormat2.format(calendar2.getTime());
 
-            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, date,timein,"");
+            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, date,timein,"","in");
 
             map = new HashMap();
             map.put("name",editName);
@@ -338,11 +338,13 @@ public class SigninForm extends AppCompatActivity {
             map.put("date",date);
             map.put("timein",timein);
             map.put("timeout","");
-           // map.put("name",name);
+            map.put("status","in");
+
+            // map.put("name",name);
             return true;
 
         }else {
-   return false;
+            return false;
         }
 
     }
@@ -468,7 +470,7 @@ public class SigninForm extends AppCompatActivity {
                         validateSpinner(reason, reasonl) &&
                         Validators.validateSpinner(locationtype, locationtypel) &&
                         Validators.notEmptyAutocomplete(visitee, visiteel)
-                && Validators.validateStaff(staf_id,stafflayout)
+                        && Validators.validateStaff(staf_id,stafflayout)
 
                 ) {
 
@@ -516,7 +518,7 @@ public class SigninForm extends AppCompatActivity {
                     office.requestFocus();
 
                 }else {
-                 home.setVisibility(View.GONE);
+                    home.setVisibility(View.GONE);
                     office.setVisibility(View.GONE);
 
                 }

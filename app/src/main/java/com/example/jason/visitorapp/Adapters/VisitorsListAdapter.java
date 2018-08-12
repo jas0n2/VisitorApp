@@ -7,12 +7,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.jason.visitorapp.Helpers.SQliteHelper;
 import com.example.jason.visitorapp.R;
 import com.example.jason.visitorapp.modals.Visitors;
 import com.example.jason.visitorapp.modals.visitorsModel;
+import com.example.jason.visitorapp.util.GlobalVariables;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.example.jason.visitorapp.Adapters.VisitorsListAdapter.TYPE_HEAD;
 import static com.example.jason.visitorapp.Adapters.VisitorsListAdapter.TYPE_LIST;
@@ -31,10 +41,10 @@ public class VisitorsListAdapter extends RecyclerView.Adapter<Viewholder> {
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
 if(viewType == TYPE_LIST){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recylist_view,parent,false);
-        return new Viewholder(view,viewType);
+        return new Viewholder(view,viewType,context);
     }else  if(viewType == TYPE_HEAD) {
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_layout,parent,false);
-    return new Viewholder(view,viewType);
+    return new Viewholder(view,viewType,context);
 }
 
 return  null;
@@ -79,11 +89,14 @@ return  null;
   class Viewholder extends RecyclerView.ViewHolder{
     AppCompatTextView date,name,timin,timout,visiting,address,from;
     AppCompatTextView dateh,nameh,timinh,timouth,visitingh,addressh,fromh;
+    AppCompatButton singin;
 
 int view_Type;
+Context context;
 
-    public Viewholder(View itemView,int viewType) {
+    public Viewholder(View itemView, int viewType, final Context context) {
         super(itemView);
+        this.context = context;
 
         if(viewType ==TYPE_LIST){
             date = itemView.findViewById(R.id.date);
@@ -93,7 +106,11 @@ int view_Type;
             visiting = itemView.findViewById(R.id.visiting);
             address = itemView.findViewById(R.id.address);
             from = itemView.findViewById(R.id.from);
+            singin = itemView.findViewById(R.id.signbtn);
             view_Type = 1;
+            //Visitors visitors = (Visitors) itemView.
+
+
         }else if(viewType == TYPE_HEAD){
             dateh = itemView.findViewById(R.id.hdate);
             nameh = itemView.findViewById(R.id.hname);
@@ -104,11 +121,12 @@ int view_Type;
             fromh = itemView.findViewById(R.id.hfrom);
             view_Type = 0;
 
+
         }
 
 
     }
-    public void intializeView(Visitors visitors){
+    public void intializeView(final Visitors visitors){
    date.setText(visitors.getDate());
    date.setText(visitors.getDate());
         name.setText(visitors.getName());
@@ -117,12 +135,40 @@ int view_Type;
         visiting.setText(visitors.getVisitee());
         address.setText(visitors.getLocationAddress());
         from.setText(visitors.getLocationType());
+        singin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQliteHelper helper = new SQliteHelper(context);
+                boolean updated = helper.signoutQuery(visitors.getID());
+                if(updated) {
+                    StringRequest request = new StringRequest(Request.Method.POST, GlobalVariables.udateStatus, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            return super.getParams();
+                        }
+                    };
+                    Toast.makeText(context, String.valueOf(visitors.getID()), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
     }
     public void intializeView2(){
      dateh.setText("Date");
         nameh.setText("Name");
-        timouth.setText("Time Out");
+        timouth.setText("Status");
         timinh.setText("Time In");
         visitingh.setText("Visiting");
         addressh.setText("Address");

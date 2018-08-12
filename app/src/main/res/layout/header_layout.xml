@@ -70,12 +70,21 @@
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="120dp"
         android:layout_height="70dp"
-        android:text="Time Out"
+        android:text="Status"
         android:layout_marginLeft="@dimen/marginleft_hea"
 
         android:id="@+id/htio"
         android:textColor="#ffffff"
         android:textSize="25dp"        />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            android:text="Action"
+            android:layout_marginLeft="@dimen/marginleft_hea"
+
+            android:id="@+id/action"
+            android:textColor="#ffffff"
+            android:textSize="25dp"        />
 
     </LinearLayout>
 

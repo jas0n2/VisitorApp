@@ -25,7 +25,7 @@ public class SQliteHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+ GlobalVariables.TABLENAME1 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL22+" TEXT,"+GlobalVariables.COL33+" TEXT,"+GlobalVariables.COL44+","+GlobalVariables.COL55+" TEXT ,"+GlobalVariables.COL60+" TEXT)");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL2+" TEXT," +
-                ""+GlobalVariables.COL3+" TEXT,"+GlobalVariables.COL4+" NUMERIC,"+GlobalVariables.COL5+" NUMERIC,"+GlobalVariables.COL6+" TEXT,"+GlobalVariables.COL7+" TEXT,"+GlobalVariables.COL8+ " TEXT,"+GlobalVariables.COL9+" TEXT,"+GlobalVariables.COL10+" INTEGER,"+GlobalVariables.COL12+" INTEGER,"+GlobalVariables.COL13+" TEXT,"+GlobalVariables.COL14+" TEXT )");
+                ""+GlobalVariables.COL3+" TEXT,"+GlobalVariables.COL4+" NUMERIC,"+GlobalVariables.COL5+" NUMERIC,"+GlobalVariables.COL6+" TEXT,"+GlobalVariables.COL7+" TEXT,"+GlobalVariables.COL8+ " TEXT,"+GlobalVariables.COL9+" TEXT,"+GlobalVariables.COL10+" INTEGER,"+GlobalVariables.COL12+" INTEGER,"+GlobalVariables.COL13+" TEXT,"+GlobalVariables.COL14+" TEXT,"+GlobalVariables.COL15+" TEXT )");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalVariables.TABLENAME);
     }
-    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime,String timein,String timeout){
+    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime,String timein,String timeout,String status){
         ContentValues values = new ContentValues();
         values.put(GlobalVariables.COL2,name);
         values.put(GlobalVariables.COL3,email);
@@ -48,6 +48,8 @@ public class SQliteHelper extends SQLiteOpenHelper{
         values.put(GlobalVariables.COL12,staff_id);
         values.put(GlobalVariables.COL13,timein);
         values.put(GlobalVariables.COL14,timeout);
+        values.put(GlobalVariables.COL15,status);
+
 
         SQLiteDatabase database = this.getWritableDatabase();
         long insert =  database.insert(GlobalVariables.TABLENAME,null,values);
@@ -62,12 +64,12 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
     public Cursor getVisitors(){
         SQLiteDatabase database = getReadableDatabase();
-        Cursor cursor = database.rawQuery("Select * from "+GlobalVariables.TABLENAME,null);
+        Cursor cursor = database.rawQuery("Select * from "+GlobalVariables.TABLENAME+" where status =? " ,new String[]{"in"});
 
         return cursor;
     }
 
-    public void populateTable(String name,String email,String phonenumber,String department,String staff_id){
+    public boolean populateTable(String name,String email,String phonenumber,String department,String staff_id){
         ContentValues contentValues = new ContentValues();
         contentValues.put(GlobalVariables.COL22 ,name);
         contentValues.put(GlobalVariables.COL33,email);
@@ -77,12 +79,31 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
         SQLiteDatabase sqLiteDatabase  = this.getWritableDatabase();
         long h = sqLiteDatabase.insert(GlobalVariables.TABLENAME1,null,contentValues);
-        //  Log.i("h",String.valueOf(h));
+        if(h == -1){
+            return false;
+        }else {
+            return true ;
+        }
+    }
+
+    public boolean signoutQuery(int id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GlobalVariables.COL15,"out");
+        long update  = database.update(GlobalVariables.TABLENAME,values,"id=?",new String[]{String.valueOf(id)});
+        if(update == -1){
+            return false;
+        }else {
+            return true;
+        }
+
+      //database.rawQuery("UPDATE "+GlobalVariables.TABLENAME1+" SET status=? WHERE ID=? ",new String[]{"out",String.valueOf(id)});
+
     }
 
     public Cursor getData(){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor =  sqLiteDatabase.rawQuery("Select * from "+GlobalVariables.TABLENAME1,null);
+        Cursor cursor =  sqLiteDatabase.rawQuery("Select * from "+GlobalVariables.TABLENAME1+"" ,null);
         return cursor;
     }
 

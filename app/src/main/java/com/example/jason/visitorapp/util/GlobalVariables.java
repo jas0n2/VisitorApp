@@ -18,9 +18,15 @@ public class GlobalVariables {
     public  static  final String COL12 = "staff_id";
     public  static  final String COL13 = "time_in";
     public  static  final String COL14 = "time_out";
+    public  static  final String COL15 = "status";
+    public  static  final String COL16 = "visitor_id  ";
+
 
     public  static  final String serverURL ="http://10.0.2.2/visilog/public/api/visitors/create";
     public  static  final String authURL ="http://10.0.2.2/visilog/public/api/auth/user";
+    public  static  final String staffSync ="http://10.0.2.2/visilog/public/api/staff";
+    public  static  final String udateStatus ="http://10.0.2.2/visilog/public/api/update/visitor";
+
 
 
 

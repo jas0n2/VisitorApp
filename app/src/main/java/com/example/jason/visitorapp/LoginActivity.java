@@ -63,6 +63,8 @@ Button loginButton;
                                 //Toast.makeText(getApplicationContext(),String.valueOf(status),Toast.LENGTH_SHORT).show();
 
                                 JSONObject user = jsonObject.getJSONObject("user");
+                                Toast.makeText(getApplicationContext(),String.valueOf(user),Toast.LENGTH_SHORT).show();
+
 
                                 if(status.equals("login")){
                                     Authhandler.getAuthhandler(getApplicationContext()).logUser(new Auth(user.getString("id"),user.getString("name")));
