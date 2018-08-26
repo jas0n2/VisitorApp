@@ -1,6 +1,7 @@
 package com.example.jason.visitorapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +17,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.jason.visitorapp.Helpers.SQliteHelper;
+import com.example.jason.visitorapp.Network.VolleySingleton;
 import com.example.jason.visitorapp.R;
+import com.example.jason.visitorapp.Welcome;
 import com.example.jason.visitorapp.modals.Visitors;
 import com.example.jason.visitorapp.modals.visitorsModel;
 import com.example.jason.visitorapp.util.GlobalVariables;
+import com.example.jason.visitorapp.util.Util;
+import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.jason.visitorapp.Adapters.VisitorsListAdapter.TYPE_HEAD;
@@ -138,28 +149,57 @@ Context context;
         singin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQliteHelper helper = new SQliteHelper(context);
-                boolean updated = helper.signoutQuery(visitors.getID());
-                if(updated) {
-                    StringRequest request = new StringRequest(Request.Method.POST, GlobalVariables.udateStatus, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
+                final SQliteHelper helper = new SQliteHelper(context);
+                Toast.makeText(context, String.valueOf(visitors.getID()), Toast.LENGTH_SHORT).show();
+                Calendar calendar2 = Calendar.getInstance();
 
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
+                final String timeout = simpleDateFormat2.format(calendar2.getTime());
+                if(Util.checkConnection(context)) {
 
-                        }
-                    }){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            return super.getParams();
-                        }
-                    };
-                    Toast.makeText(context, String.valueOf(visitors.getID()), Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                        StringRequest request = new StringRequest(Request.Method.POST, GlobalVariables.udateStatus, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                Toast.makeText(context,response,Toast.LENGTH_SHORT).show();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    String result = jsonObject.getString("status");
+                                    if(result.equals("ok")){
+                                        helper.signoutQuery(visitors.getID(),1,timeout);
+
+                                        Intent intent = new Intent(context, Welcome.class);
+                                        context.startActivity(intent);
+
+                                    }
+                                } catch (JSONException e) {
+                                    //Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String,String> map = new HashMap<>();
+
+                                map.put("id",String.valueOf(visitors.getID()));
+                                map.put("timeout",timeout);
+                                return map;
+                            }
+                        };
+                        VolleySingleton.volleySingleton(context).addToRequest(request);
+
+                }  else {
+                     helper.signoutQuery(visitors.getID(),0,timeout);
+                    Intent intent = new Intent(context, Welcome.class);
+                    context.startActivity(intent);
 
                 }
             }

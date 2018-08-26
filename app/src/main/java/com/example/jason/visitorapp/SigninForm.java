@@ -69,8 +69,11 @@ public class SigninForm extends AppCompatActivity {
     String  reasonSpinner ="";
     String staf_id = "";
     String staff_name = "";
+
     boolean validate =false;
+    int count =0;
     String  spinnerValidationtext ="";
+    long id;
 
     SQliteHelper databaseHelper;
     Map<String,String> map;
@@ -79,10 +82,7 @@ public class SigninForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_form);
-        //StaffDatabaseHelper helper = new StaffDatabaseHelper(getApplicationContext());
-
         databaseHelper = new SQliteHelper(getApplicationContext());
-
         singinLayout = findViewById(R.id.singinLayout);
         reason = findViewById(R.id.spinner);
         locationspinner = findViewById(R.id.spinnerlocation);
@@ -90,8 +90,6 @@ public class SigninForm extends AppCompatActivity {
         name = findViewById(R.id.editLayoutName);
         locationAdresso = findViewById(R.id.editLayoutHaddress);
         locationAdressh = findViewById(R.id.editOfficeAddress);
-
-
         phone = findViewById(R.id.editLayoutcontact);
         email = findViewById(R.id.editLayoutEmail);
         nameLayout = findViewById(R.id.textLayoutName);
@@ -100,20 +98,12 @@ public class SigninForm extends AppCompatActivity {
         locationAddLayer = findViewById(R.id.locationAddress);
         locationTypeLayout = findViewById(R.id.textLayoutLocation);
         reasonLayout = findViewById(R.id.textLayoutReason);
-        // Validators.validateSpinner(reason,reasonLayout);
         dateTime = findViewById(R.id.textLayoutTime);
         editTime = findViewById(R.id.editTime);
         stafflayout = findViewById(R.id.textLayoutStaff);
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yy  HH:mm:ss");
         editTime.setText(simpleDateFormat.format(calendar.getTime()));
-
-
-        //validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer);
-
-        //getSupportActionBar().hide();
-
-        //populateStaff();
         Cursor cursor = databaseHelper.getData();
         staffArrayList = new ArrayList<>();
         while (cursor.moveToNext()){
@@ -146,6 +136,11 @@ public class SigninForm extends AppCompatActivity {
         savedata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//long id = databaseHelper.generateID();
+              ;
+                id = databaseHelper.generateID();
+
+
 
                 VolleyLog.DEBUG = true;
                 populateHashMap(name,email,phone,reason,staffName,
@@ -206,50 +201,37 @@ public class SigninForm extends AppCompatActivity {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
 
-//                           Map<String,String> map = new HashMap<>();
-//                            map.put("name","S");
-//                            map.put("email","S");
-//                            map.put("phone","022");
-//                            map.put("reason","sld");
-//                            map.put("staffname","DS");
-//                            map.put("loctionType","Sd");
-//                            map.put("locationAdress","sd");
-//                            map.put("staf_id","1");
-//                            map.put("date","2018-10-2");
-//                            map.put("timein","12:20");
-//                            map.put("timeout","12:20");
-
-                                //map.put("Content-Type", "application/json");
+//
                                 return map;
                             }
 
                         };
-
+                        //end request
 
                         request.setShouldCache(false);
                         request.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         VolleySingleton.volleySingleton(SigninForm.this).addToRequest(request);
 
                     } else {
-//                    validateData(name,email,phone,reason,staffName, locationspinner,locationAdressh,locationAdresso,nameLayout,emailLayout,phoneLayout,reasonLayout,stafflayout,locationTypeLayout,locationAddLayer,officeLocation);
+                        return;
 
-                        if (insertData(name, email, phone, reason, staffName,
-                                locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 1)) {
-                            visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
-                            visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
-
-                            Intent in = new Intent(SigninForm.this, Welcome.class);
-                            startActivity(in);
-
-                        } else {
-                            return;
-                        }
-                        //                    Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
 
                     }
 
                 }else {
-                    return;
+
+                    if (insertData(name, email, phone, reason, staffName,
+                            locationspinner, locationAdressh, locationAdresso, editTime, nameLayout, emailLayout, phoneLayout, reasonLayout, stafflayout, locationTypeLayout, locationAddLayer, officeLocation, dateTime, 0)) {
+                        visitorsModel.getVisitorsModel(getApplicationContext()).clearViitor();
+                        visitorsModel.getVisitorsModel(getApplicationContext()).allVisitors();
+
+                        Intent in = new Intent(SigninForm.this, Welcome.class);
+                        startActivity(in);
+
+                    } else {
+return;
+                    }
+
                 }
             }
         });
@@ -318,13 +300,14 @@ public class SigninForm extends AppCompatActivity {
 
 
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date = simpleDateFormat.format(calendar.getTime());
             Calendar calendar2 = Calendar.getInstance();
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
             String timein = simpleDateFormat2.format(calendar2.getTime());
+            //long id = databaseHelper.generateID();
 
-            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, date,timein,"","in");
+            boolean saveData = databaseHelper.addVistors(editName, editEmail, editPhone, reasonSpinner, staff_name, locationtypeSpinner, userlocation, staf_id, sync_status, date,timein,"","in",id);
 
             map = new HashMap();
             map.put("name",editName);
@@ -410,7 +393,7 @@ public class SigninForm extends AppCompatActivity {
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm:ss");
             String timein = simpleDateFormat2.format(calendar2.getTime());
 
-
+               //long id = databaseHelper.generateID();
             map = new HashMap();
             map.put("name",editName);
             map.put("email",editEmail);
@@ -423,6 +406,7 @@ public class SigninForm extends AppCompatActivity {
             map.put("date",date);
             map.put("timein",timein);
             map.put("timeout","");
+            map.put("visitor_id",String.valueOf(id));
             // map.put("name",name);
             return true;
 

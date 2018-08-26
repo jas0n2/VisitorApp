@@ -21,11 +21,10 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.i("inset2 deb","created");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+ GlobalVariables.TABLENAME1 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL22+" TEXT,"+GlobalVariables.COL33+" TEXT,"+GlobalVariables.COL44+","+GlobalVariables.COL55+" TEXT ,"+GlobalVariables.COL60+" TEXT)");
-
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL2+" TEXT," +
-                ""+GlobalVariables.COL3+" TEXT,"+GlobalVariables.COL4+" NUMERIC,"+GlobalVariables.COL5+" NUMERIC,"+GlobalVariables.COL6+" TEXT,"+GlobalVariables.COL7+" TEXT,"+GlobalVariables.COL8+ " TEXT,"+GlobalVariables.COL9+" TEXT,"+GlobalVariables.COL10+" INTEGER,"+GlobalVariables.COL12+" INTEGER,"+GlobalVariables.COL13+" TEXT,"+GlobalVariables.COL14+" TEXT,"+GlobalVariables.COL15+" TEXT )");
+  sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME2 +"(ID INTEGER PRIMARY KEY AUTOINCREMENT, auto INTEGER) ");
+  sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+GlobalVariables.TABLENAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,"+GlobalVariables.COL2+" TEXT," +
+                ""+GlobalVariables.COL3+" TEXT,"+GlobalVariables.COL4+" NUMERIC,"+GlobalVariables.COL5+" NUMERIC,"+GlobalVariables.COL6+" TEXT,"+GlobalVariables.COL7+" TEXT,"+GlobalVariables.COL8+ " TEXT,"+GlobalVariables.COL9+" TEXT,"+GlobalVariables.COL10+" INTEGER,"+GlobalVariables.COL12+" INTEGER,"+GlobalVariables.COL13+" TEXT,"+GlobalVariables.COL14+" TEXT,"+GlobalVariables.COL15+" TEXT,"+GlobalVariables.COL16+" INTEGER,"+GlobalVariables.COL17+" INTEGER )");
     }
 
     @Override
@@ -34,7 +33,7 @@ public class SQliteHelper extends SQLiteOpenHelper{
 
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalVariables.TABLENAME);
     }
-    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime,String timein,String timeout,String status){
+    public boolean addVistors(String name,String email,String Phone,String reason,String visitee,String locationtype,String locationaddress,String staff_id,int sync_satus,String dateTime,String timein,String timeout,String status,long id){
         ContentValues values = new ContentValues();
         values.put(GlobalVariables.COL2,name);
         values.put(GlobalVariables.COL3,email);
@@ -49,6 +48,8 @@ public class SQliteHelper extends SQLiteOpenHelper{
         values.put(GlobalVariables.COL13,timein);
         values.put(GlobalVariables.COL14,timeout);
         values.put(GlobalVariables.COL15,status);
+        values.put(GlobalVariables.COL16,id);
+        values.put(GlobalVariables.COL17,0);
 
 
         SQLiteDatabase database = this.getWritableDatabase();
@@ -69,6 +70,42 @@ public class SQliteHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
+
+    public long  updateOnSync(int id,int sync){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GlobalVariables.COL10,sync);
+        long result =  db.update(GlobalVariables.TABLENAME,values,"id=?",new String[]{String.valueOf(id)});
+
+        return result;
+    }
+
+    public long  bgUpdateOnSync(int id ,int sync){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GlobalVariables.COL17,sync);
+        long result =  db.update(GlobalVariables.TABLENAME,values,"id=?",new String[]{String.valueOf(id)});
+
+        return result;
+    }
+
+
+    public Cursor getNotSync(){
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("Select * from "+GlobalVariables.TABLENAME+" where sync_status =? " ,new String[]{"0"});
+        return cursor;
+    }
+    //this is to get signout on the
+    public Cursor getUpdateNotSync(){
+        SQLiteDatabase database = getReadableDatabase();
+
+
+        Cursor cursor = database.rawQuery("Select * from "+GlobalVariables.TABLENAME+" where update_sync =? " ,new String[]{"0"});
+
+
+        return cursor;
+    }
+
     public boolean populateTable(String name,String email,String phonenumber,String department,String staff_id){
         ContentValues contentValues = new ContentValues();
         contentValues.put(GlobalVariables.COL22 ,name);
@@ -85,11 +122,22 @@ public class SQliteHelper extends SQLiteOpenHelper{
             return true ;
         }
     }
+    public  long generateID(){
+        int count = 0;
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+         values.put("auto",count++);
+        long id = sqLiteDatabase.insert(GlobalVariables.TABLENAME2,null,values);
 
-    public boolean signoutQuery(int id){
+        return  id;
+    }
+
+    public boolean signoutQuery(int id,int update_sync,String timeout){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(GlobalVariables.COL15,"out");
+        values.put(GlobalVariables.COL17,update_sync);
+        values.put(GlobalVariables.COL14,timeout);
         long update  = database.update(GlobalVariables.TABLENAME,values,"id=?",new String[]{String.valueOf(id)});
         if(update == -1){
             return false;

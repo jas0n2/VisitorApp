@@ -5,6 +5,8 @@ import android.content.Context;
 public class GlobalVariables {
     public static   final String DATABASENAME="VISTORSLOG";
     public static final String TABLENAME = "VISITORSTABLE";
+    public static final String TABLENAME2 = "IDGENERATOR";
+
     public static final String COL1 ="id";
     public  static final  String COL2 = "name";
     public static  final  String COL3 = "email";
@@ -19,13 +21,14 @@ public class GlobalVariables {
     public  static  final String COL13 = "time_in";
     public  static  final String COL14 = "time_out";
     public  static  final String COL15 = "status";
-    public  static  final String COL16 = "visitor_id  ";
+    public  static  final String COL16 = "visitor_id";
+    public  static  final String COL17 ="update_sync";
 
 
     public  static  final String serverURL ="http://10.0.2.2/visilog/public/api/visitors/create";
     public  static  final String authURL ="http://10.0.2.2/visilog/public/api/auth/user";
     public  static  final String staffSync ="http://10.0.2.2/visilog/public/api/staff";
-    public  static  final String udateStatus ="http://10.0.2.2/visilog/public/api/update/visitor";
+    public  static  final String udateStatus ="http://10.0.2.2/visilog/public/api/visitor/update";
 
 
 

@@ -1,9 +1,14 @@
 package com.example.jason.visitorapp;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -19,6 +24,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.jason.visitorapp.Helpers.SQliteHelper;
+import com.example.jason.visitorapp.Network.BackgroudSync;
+import com.example.jason.visitorapp.Network.BackgroundUpdateSync;
+import com.example.jason.visitorapp.Network.JobService;
 import com.example.jason.visitorapp.Network.VolleySingleton;
 import com.example.jason.visitorapp.modals.Staffs;
 import com.example.jason.visitorapp.util.Authhandler;
@@ -48,6 +56,9 @@ public class Welcome extends AppCompatActivity {
         final SQliteHelper helper = new SQliteHelper(getApplicationContext());
         Cursor cursor = helper.getVisitors();
         int cout = cursor.getCount();
+        onStartUpdateJob();
+
+        startUpadte();
         sharedPreferences = this.getSharedPreferences("imsert",MODE_PRIVATE);
 
 String isStaff  = sharedPreferences.getString("notemptystaff",null);
@@ -132,5 +143,28 @@ String isStaff  = sharedPreferences.getString("notemptystaff",null);
             }
         });
 
+    }
+
+
+    public void startUpadte(){
+        ComponentName componentName = new ComponentName(this, BackgroundUpdateSync.class);
+        JobInfo info = new JobInfo.Builder(1,componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler scheduler =(JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.schedule(info);
+    }
+
+    public void onStartUpdateJob(){
+        ComponentName componentName = new ComponentName(this, BackgroudSync.class);
+        JobInfo info = new JobInfo.Builder('2',componentName)
+                .setPeriodic(15*60*1000)
+                .setPersisted(true)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.schedule(info);
     }
 }
